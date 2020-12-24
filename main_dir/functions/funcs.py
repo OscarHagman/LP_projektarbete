@@ -6,6 +6,10 @@ LIST = db.LIST  # This is the key for the dict
 ID = db.ID      # This is the key for the dict
 
 
+def create_reminder():
+    pass
+
+
 def yes_or_no() -> bool:
     """
     Allows the user to answer simple "yes or no" questions and lets them try again if the input is incorrect
@@ -64,41 +68,3 @@ def create_reminder_timestamp() -> str:
             return reminder_timestamp
         except ValueError:
             print("You entered wrong format\nExample on correct format: 2020-04-20 13:37\n")
-
-
-def open_to_do(reminder_index: int) -> None:
-    """
-    Opens the menu for the given reminder which allows the user to read, edit and delete the opened reminder.
-    :param reminder_index: The index for what reminder to open
-    :return: None
-    """
-
-    while True:
-        reminder = db.REMINDERS[LIST][reminder_index]
-        print("Reminder:", reminder.title, "| ID:", reminder.reminder_id)
-        print("[1] Read\n[2] Edit title & text\n[3] Edit reminder date & time\n[4] Delete\n[5] Go back")
-        to_do_menu_choice = input(": ")
-        if to_do_menu_choice == "1":
-            print("Reminder date & time:", reminder.reminder_date)  # ADD REMINDER DATE
-            print("Title:", reminder.title)
-            print("\n" + reminder.text + "\n")
-
-        elif to_do_menu_choice == "2":
-            print("Edit title & text")
-            #  FIX ME
-
-        elif to_do_menu_choice == "3":
-            print("Edit reminder")
-            #  FIX ME
-
-        elif to_do_menu_choice == "4":
-            print("You sure you want to delete", reminder.title + "?")
-            if yes_or_no():
-                del db.REMINDERS[LIST][reminder_index]  # Delete daemon process
-                print(reminder.title, "has been deleted")
-                break
-        elif to_do_menu_choice == "5":
-            print("Going back")
-            break
-        else:
-            print("Invalid input")
