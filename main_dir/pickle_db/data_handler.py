@@ -15,14 +15,6 @@ except FileNotFoundError:
     pass
 
 
-def load_reminders():
-    try:
-        with open(PICKLE_PATH, "rb") as func_reminder_pickled:
-            REMINDERS = pickle.load(func_reminder_pickled)
-    except FileNotFoundError:
-        print("failed")
-
-
 def dump_reminders():
     with open(PICKLE_PATH, "wb") as pickle_file:
         pickle.dump(REMINDERS, pickle_file)
