@@ -3,8 +3,9 @@ from main_dir.functions import funcs as f
 
 
 #  CONSTANTS
-LIST = db.LIST  # This is the key for the dict
-ID = db.ID      # This is the key for the dict
+LIST = db.LIST    # This is the key for the reminders list in the dict
+ID = db.ID        # This is the key for the id counter in the dict
+EMAIL = db.EMAIL  # This is the key for the receiver email in the dict
 
 
 def open_reminder(reminder_index: int) -> None:
@@ -47,7 +48,7 @@ def open_reminder(reminder_index: int) -> None:
 #  PROGRAM STARTS HERE
 
 while True:
-    print("\n[1] Create reminder\n[2] View reminders\n[3] Exit")
+    print("\n[1] Create reminder\n[2] View reminders\n[3] Set receiver email\n[4] Exit")
     main_menu_input = input(": ")
 
     if main_menu_input == "1":
@@ -55,8 +56,7 @@ while True:
         print("\nThis is a multi-line input for your reminder text")
         reminder_text = f.multiline_input()
         reminder_timestamp = f.create_reminder_timestamp()
-        receiver_email = input("Receiver email: ")
-        f.create_email_scripts(db.REMINDERS[ID], receiver_email)
+        f.create_email_scripts(db.REMINDERS[ID], db.REMINDERS[EMAIL])
 
         reminder_object = db.Reminder(reminder_title, reminder_text, reminder_timestamp, db.REMINDERS[ID])
         db.REMINDERS[ID] += 1
@@ -87,6 +87,11 @@ while True:
             print("There are no reminders")
 
     elif main_menu_input == "3":
+        receiver_email = input("Receiver email: ")
+        db.REMINDERS[EMAIL] = receiver_email
+        print("Your reminders will be sent to email: " + receiver_email)
+
+    elif main_menu_input == "4":
         print("Exiting...")
         db.dump_reminders()
         break

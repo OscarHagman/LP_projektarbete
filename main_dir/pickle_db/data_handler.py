@@ -1,5 +1,14 @@
 import pickle
 
+#  PATHS
+PATH = "/home/oscar/oscars_projektarbete"
+PATH_TO_TEMPLATE = PATH + "/main_dir/scripts_for_email/email_script_template.cfg"
+
+#  KEYS
+LIST = "reminder_key_list"
+ID = "reminder_key_id"
+EMAIL = "reminder_key_receiver_email"
+
 
 class Reminder:
 
@@ -10,16 +19,8 @@ class Reminder:
         self.reminder_id = reminder_id
 
 
-#  KEYS
-LIST = "reminder_key_list"
-ID = "reminder_key_id"
-
-#  PATHS
-PATH_TO_TEMPLATE = "/home/oscar/oscars_projektarbete/main_dir/scripts_for_email/email_script_template.cfg"
-SAVE_FILE_PATH = "/home/oscar/oscars_projektarbete/main_dir/scripts_for_email/"
-
 ID_COUNTER = 1001
-REMINDERS = {LIST: [], ID: ID_COUNTER}
+REMINDERS = {LIST: [], ID: ID_COUNTER, EMAIL: ""}
 PICKLE_PATH = "/home/oscar/oscars_projektarbete/main_dir/pickle_db/reminders.pickle"
 
 try:

@@ -6,15 +6,22 @@ LIST = db.LIST  # This is the key for the dict
 ID = db.ID      # This is the key for the dict
 
 PATH_TO_TEMPLATE = db.PATH_TO_TEMPLATE
-SAVE_FILE_PATH = db.SAVE_FILE_PATH
+SAVE_FILE_PATH = PATH_TO_TEMPLATE[:-25]  # Deletes email_script_template.cfg from path
 
 
-def create_email_scripts(id_number, receiver_email):
+def create_email_scripts(id_number, receiver_email) -> None:
     """
+    Writes a custom and unique .py, .service and .timer file based on templates.
+    The .py file opens the .pickle file, searches for a matching id number and attaches the title and text to the
+    message that will be sent to the receiver_email address.
 
-    :param id_number:
-    :param receiver_email:
-    :return:
+    The .service file will execute the .py file.
+
+    The .timer file will execute the .service file at the given date & time
+
+    :param id_number: Is used to locate correct data to send in the email and to create unique file names.
+    :param receiver_email: Email address the .py file will send that data to.
+    :param timestamp: Will set what date & time the .timer file will execute the .service file.
     """
     receiver_email = '"' + receiver_email + '"'  # Ads "" to the string so it gets represented as a string in the script
     create_file_path = SAVE_FILE_PATH + "reminder_" + str(id_number) + ".py"  # Creates a unique file name
