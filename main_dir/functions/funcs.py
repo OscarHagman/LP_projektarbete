@@ -5,8 +5,8 @@ from main_dir.pickle_db import data_handler as db
 LIST = db.LIST  # This is the key for the dict
 ID = db.ID      # This is the key for the dict
 
-PATH_TO_TEMPLATE = db.PATH_TO_TEMPLATE
-SAVE_FILE_PATH = PATH_TO_TEMPLATE[:-25]  # Deletes email_script_template.cfg from path
+PATH_PYTHON_TEMPLATE = db.PATH_PYTHON_TEMPLATE
+SAVE_PYTHON_PATH = db.PATH_EMAIL_SCRIPTS  # Path for where to save the python email script
 
 
 def create_email_scripts(id_number, receiver_email) -> None:
@@ -24,8 +24,8 @@ def create_email_scripts(id_number, receiver_email) -> None:
     :param timestamp: Will set what date & time the .timer file will execute the .service file.
     """
     receiver_email = '"' + receiver_email + '"'  # Ads "" to the string so it gets represented as a string in the script
-    create_file_path = SAVE_FILE_PATH + "reminder_" + str(id_number) + ".py"  # Creates a unique file name
-    with open(PATH_TO_TEMPLATE, "r") as template:
+    create_file_path = SAVE_PYTHON_PATH + "reminder_" + str(id_number) + ".py"  # Creates a unique file name
+    with open(PATH_PYTHON_TEMPLATE, "r") as template:
         template_list = template.readlines()
     #  Removes the '\n' from the end of each element and ads the item into a new list
     edited_list = []
@@ -47,6 +47,14 @@ def create_email_scripts(id_number, receiver_email) -> None:
     with open(create_file_path, "w") as email_script:
         for line in edited_list:
             print(line, file=email_script)
+
+
+def create_service(id_number):
+    pass
+
+
+def create_timer(id_number):
+    pass
 
 
 def yes_or_no() -> bool:

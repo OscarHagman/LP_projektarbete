@@ -1,8 +1,12 @@
 import pickle
 
 #  PATHS
-PATH = "/home/oscar/oscars_projektarbete"
-PATH_TO_TEMPLATE = PATH + "/main_dir/scripts_for_email/email_script_template.cfg"
+PATH_PROJECT = "/home/oscar/oscars_projektarbete"
+PATH_EMAIL_SCRIPTS = PATH_PROJECT + "/main_dir/scripts_for_email/"
+PATH_TEMPLATES = PATH_EMAIL_SCRIPTS + "/TEMPLATES"
+PATH_PYTHON_TEMPLATE = PATH_TEMPLATES + "/python_template.cfg"
+PATH_SERVICE_TEMPLATE = PATH_TEMPLATES + "/service_template.cfg"
+PATH_TIMER_TEMPLATE = PATH_TEMPLATES + "/timer_template.cfg"
 
 #  KEYS
 LIST = "reminder_key_list"
