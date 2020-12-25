@@ -5,9 +5,41 @@ from main_dir.pickle_db import data_handler as db
 LIST = db.LIST  # This is the key for the dict
 ID = db.ID      # This is the key for the dict
 
+PATH_TO_TEMPLATE = db.PATH_TO_TEMPLATE
+SAVE_FILE_PATH = db.SAVE_FILE_PATH
 
-def create_reminder():
-    pass
+
+def create_email_scripts(id_number, receiver_email):
+    """
+
+    :param id_number:
+    :param receiver_email:
+    :return:
+    """
+    receiver_email = '"' + receiver_email + '"'  # Ads "" to the string so it gets represented as a string in the script
+    create_file_path = SAVE_FILE_PATH + "reminder_" + str(id_number) + ".py"  # Creates a unique file name
+    with open(PATH_TO_TEMPLATE, "r") as template:
+        template_list = template.readlines()
+    #  Removes the '\n' from the end of each element and ads the item into a new list
+    edited_list = []
+    for item in template_list:
+        edited_item = item.strip("\n")
+        edited_list.append(edited_item)
+
+    # Find where the id and email variable is in the list and ads the custom value to them
+    id_index = edited_list.index("REMINDER_ID")
+    receiver_index = edited_list.index("receiver_email")
+    edited_reminder_id = (edited_list[id_index] + " = " + str(id_number))
+    edited_receiver_email = (edited_list[receiver_index] + " = " + receiver_email)
+
+    #  Ads the edited id number and receiver email to correct variables in the script
+    edited_list[id_index] = edited_reminder_id
+    edited_list[receiver_index] = edited_receiver_email
+
+    # Creates a new .py file in the given path and writes the custom script to the file
+    with open(create_file_path, "w") as email_script:
+        for line in edited_list:
+            print(line, file=email_script)
 
 
 def yes_or_no() -> bool:

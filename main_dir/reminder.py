@@ -1,5 +1,5 @@
 from main_dir.pickle_db import data_handler as db
-from main_dir.functions import funcs as r_funcs
+from main_dir.functions import funcs as f
 
 
 #  CONSTANTS
@@ -33,7 +33,7 @@ def open_reminder(reminder_index: int) -> None:
 
         elif to_do_menu_choice == "4":
             print("You sure you want to delete", opened_reminder.title + "?")
-            if r_funcs.yes_or_no():
+            if f.yes_or_no():
                 del db.REMINDERS[LIST][reminder_index]  # Delete daemon process
                 print(opened_reminder.title, "has been deleted")
                 break
@@ -53,8 +53,10 @@ while True:
     if main_menu_input == "1":
         reminder_title = input("Reminder title: ")
         print("\nThis is a multi-line input for your reminder text")
-        reminder_text = r_funcs.multiline_input()
-        reminder_timestamp = r_funcs.create_reminder_timestamp()
+        reminder_text = f.multiline_input()
+        reminder_timestamp = f.create_reminder_timestamp()
+        receiver_email = input("Receiver email: ")
+        f.create_email_scripts(db.REMINDERS[ID], receiver_email)
 
         reminder_object = db.Reminder(reminder_title, reminder_text, reminder_timestamp, db.REMINDERS[ID])
         db.REMINDERS[ID] += 1
@@ -72,7 +74,7 @@ while True:
                     print("[" + str(index) + "]", reminder.title)
                 print("[" + str(len(db.REMINDERS[LIST]) + 1) + "]", "Go back")
 
-                choose_reminder = r_funcs.input_to_int()
+                choose_reminder = f.input_to_int()
                 if choose_reminder in valid_reminder_choice:
                     open_reminder(choose_reminder - 1)
 

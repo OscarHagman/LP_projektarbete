@@ -14,6 +14,10 @@ class Reminder:
 LIST = "reminder_key_list"
 ID = "reminder_key_id"
 
+#  PATHS
+PATH_TO_TEMPLATE = "/home/oscar/oscars_projektarbete/main_dir/scripts_for_email/email_script_template.cfg"
+SAVE_FILE_PATH = "/home/oscar/oscars_projektarbete/main_dir/scripts_for_email/"
+
 ID_COUNTER = 1001
 REMINDERS = {LIST: [], ID: ID_COUNTER}
 PICKLE_PATH = "/home/oscar/oscars_projektarbete/main_dir/pickle_db/reminders.pickle"
