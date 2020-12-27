@@ -7,6 +7,8 @@ LIST = db.LIST    # This is the key for the reminders list in the dict
 ID = db.ID        # This is the key for the id counter in the dict
 EMAIL = db.EMAIL  # This is the key for the receiver email in the dict
 
+PATH_EMAIL_SCRIPTS = db.PATH_EMAIL_SCRIPTS
+
 
 def open_reminder(reminder_index: int) -> None:
     """
@@ -17,7 +19,7 @@ def open_reminder(reminder_index: int) -> None:
     while True:
         opened_reminder = db.REMINDERS[LIST][reminder_index]
         print("Reminder:", opened_reminder.title, "| ID:", opened_reminder.reminder_id)
-        print("[1] Read\n[2] Edit title & text\n[3] Edit reminder date & time\n[4] Delete\n[5] Go back")
+        print("[1] Read\n[2] Delete\n[3] Go back")
         to_do_menu_choice = input(": ")
         if to_do_menu_choice == "1":
             print("Date&time for reminder:", opened_reminder.reminder_date)
@@ -25,20 +27,13 @@ def open_reminder(reminder_index: int) -> None:
             print("\n" + opened_reminder.text + "\n")
 
         elif to_do_menu_choice == "2":
-            print("Edit title & text")
-            #  FIX ME
-
-        elif to_do_menu_choice == "3":
-            print("Edit reminder")
-            #  FIX ME
-
-        elif to_do_menu_choice == "4":
             print("You sure you want to delete", opened_reminder.title + "?")
             if f.yes_or_no():
                 del db.REMINDERS[LIST][reminder_index]  # Delete daemon process
                 print(opened_reminder.title, "has been deleted")
+                db.dump_reminders()
                 break
-        elif to_do_menu_choice == "5":
+        elif to_do_menu_choice == "3":
             print("Going back")
             break
         else:
@@ -46,8 +41,8 @@ def open_reminder(reminder_index: int) -> None:
 
 
 #  PROGRAM STARTS HERE
-
 while True:
+    db.load_reminder()
     print("\n[1] Create reminder\n[2] View reminders\n[3] Set receiver email\n[4] Exit")
     main_menu_input = input(": ")
 
@@ -56,11 +51,20 @@ while True:
         print("\nThis is a multi-line input for your reminder text")
         reminder_text = f.multiline_input()
         reminder_timestamp = f.create_reminder_timestamp()
-        f.create_email_scripts(db.REMINDERS[ID], db.REMINDERS[EMAIL])
 
         reminder_object = db.Reminder(reminder_title, reminder_text, reminder_timestamp, db.REMINDERS[ID])
-        db.REMINDERS[ID] += 1
         db.REMINDERS[LIST].append(reminder_object)
+        db.dump_reminders()
+
+        daemon_name = "reminder_" + str(db.REMINDERS[ID])
+        create_file_path = PATH_EMAIL_SCRIPTS + "/" + daemon_name + ".py"
+
+        f.create_email_script(db.REMINDERS[ID], db.REMINDERS[EMAIL], daemon_name)
+        f.create_service(create_file_path, daemon_name)
+        f.create_timer(reminder_timestamp, daemon_name)
+        # f.execute_timer(daemon_name)
+        db.REMINDERS[ID] += 1
+        db.dump_reminders()
 
     elif main_menu_input == "2":
         if db.REMINDERS[LIST]:
@@ -90,6 +94,7 @@ while True:
         receiver_email = input("Receiver email: ")
         db.REMINDERS[EMAIL] = receiver_email
         print("Your reminders will be sent to email: " + receiver_email)
+        db.dump_reminders()
 
     elif main_menu_input == "4":
         print("Exiting...")

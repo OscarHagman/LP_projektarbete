@@ -1,28 +1,18 @@
 #!/usr/bin/python3.8
+import os  # THIS IS NEW
 import smtplib
-from main_dir.pickle_db import data_handler as db
-
-#  CONSTANTS
-LIST = db.LIST  # This is the key for the dict
-ID = db.ID  # This is the key for the dict
 
 # NEEDS TO BE CUSTOMIZABLE
-REMINDER_ID
-receiver_email
+REMINDER_ID = 1002
+receiver_email = "oscar.leslie.hagman@gmail.com"
 
 sender_email = "oscars.reminder.bot@gmail.com"
 password = "devops2020"
 port = 587
 
-title = ""
-text = ""
-for reminder in db.REMINDERS[LIST]:
-    if reminder.reminder_id == REMINDER_ID:
-        title = reminder.title
-        text = reminder.text
-    else:
-        title = "ERROR"
-        text = "Couldn't find REMINDER_ID:", REMINDER_ID
+title = "testing self destruct"
+text = "testing self destruct\n\nRegards, ORB"
+
 message = "Subject: " + title + "\n\n" + text
 
 try:
@@ -35,7 +25,7 @@ try:
 except Exception as e:
     print("ERROR:", e)
 
-# !!!EVERYTHING BELOW THIS LINE IS NEW!!!
+# EVERYTHING BELOW THIS LINE IS NEW
 daemon_name = "reminder_" + str(REMINDER_ID)
 d_service = daemon_name + ".service"
 d_timer = daemon_name + ".timer"
@@ -58,3 +48,14 @@ PATH_EMAIL_SCRIPTS = "/home/oscar/oscars_projektarbete/main_dir/scripts_for_emai
 d_python = daemon_name + ".py"
 print("sudo rm " + PATH_EMAIL_SCRIPTS + "/" + d_python)
 os.system("sudo rm " + PATH_EMAIL_SCRIPTS + "/" + d_python)
+
+"""
+.service filen kan troligen inte exekvera "sudo rm path/name.service" eftersom den blir blockerad
+för att ha ihäl sig själv medans scriptet den har kört är vid liv. circular probelm osv...
+
+Idé för lösning är att ha ett "remove_files.py" script som reminder_xxxx.py filen exekverar.
+För när den exekveras så har .service filen gjort klart sitt jobb och lägger sig dorment.
+Då är kan mina script säkert komma åt den.
+
+Eventuellt så kan remove_files behöva time.sleep(10)
+"""

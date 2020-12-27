@@ -1,3 +1,4 @@
+import os
 import datetime
 from main_dir.pickle_db import data_handler as db
 
@@ -6,10 +7,68 @@ LIST = db.LIST  # This is the key for the dict
 ID = db.ID      # This is the key for the dict
 
 PATH_PYTHON_TEMPLATE = db.PATH_PYTHON_TEMPLATE
-SAVE_PYTHON_PATH = db.PATH_EMAIL_SCRIPTS  # Path for where to save the python email script
+PATH_EMAIL_SCRIPTS = db.PATH_EMAIL_SCRIPTS  # Path for where the python email scripts are saved
+
+PATH_SERVICE_TEMPLATE = db.PATH_SERVICE_TEMPLATE
+PATH_TIMER_TEMPLATE = db.PATH_TIMER_TEMPLATE
+SYSTEMD_PATH = "/home/oscar/oscars_projektarbete"
 
 
-def create_email_scripts(id_number, receiver_email) -> None:
+def execute_timer(daemon_name):
+    d_timer = daemon_name + ".timer"
+    d_python = "/" + daemon_name + ".py"
+
+    os.system("sudo chmod +x " + PATH_EMAIL_SCRIPTS + d_python)
+    os.system("sudo systemctl daemon-reload")
+    os.system("sudo systemctl enable " + d_timer)
+    os.system("sudo systemctl start " + d_timer)
+
+
+def create_service(email_script_path, daemon_name):
+    with open(PATH_SERVICE_TEMPLATE, "r") as template:
+        template_list = template.readlines()
+    #  Removes the '\n' from the end of each element and ads the item into a new list
+    edited_list = []
+    for item in template_list:
+        edited_item = item.strip("\n")
+        edited_list.append(edited_item)
+
+    #  Finds where ExecStart is and ads to the element what path to take for the email script
+    exec_start_index = edited_list.index("ExecStart=")
+    edited_exec_start = (edited_list[exec_start_index] + email_script_path)
+    #  Ads the edited ExecStart item to the edited list, which will be printed to a new file
+    edited_list[exec_start_index] = edited_exec_start
+
+    create_file_path = SYSTEMD_PATH + "/" + daemon_name + ".service"
+    # Creates a new .service file in the given path and writes the custom service to the file
+    with open(create_file_path, "w") as email_service:
+        for line in edited_list:
+            print(line, file=email_service)
+
+
+def create_timer(time_stamp, daemon_name):
+    with open(PATH_TIMER_TEMPLATE, "r") as template:
+        template_list = template.readlines()
+    #  Removes the '\n' from the end of each element and ads the item into a new list
+    edited_list = []
+    for item in template_list:
+        edited_item = item.strip("\n")
+        edited_list.append(edited_item)
+
+    #  Finds where OnCalendar is and ads to the element what date & time to execute
+    on_calendar_index = edited_list.index("OnCalendar=")
+    edited_on_calendar = (edited_list[on_calendar_index] + time_stamp + ":00")
+    #  Ads the edited OnCalendar item to the edited list, which will be printed to a new file
+    edited_list[on_calendar_index] = edited_on_calendar
+
+    create_file_path = SYSTEMD_PATH + "/" + daemon_name + ".timer"
+    # Creates a new .service file in the given path and writes the custom service to the file
+    with open(create_file_path, "w") as email_service:
+        for line in edited_list:
+            print(line, file=email_service)
+
+
+def create_email_script(id_number, receiver_email, daemon_name) -> None:
     """
     Writes a custom and unique .py, .service and .timer file based on templates.
     The .py file opens the .pickle file, searches for a matching id number and attaches the title and text to the
@@ -21,10 +80,13 @@ def create_email_scripts(id_number, receiver_email) -> None:
 
     :param id_number: Is used to locate correct data to send in the email and to create unique file names.
     :param receiver_email: Email address the .py file will send that data to.
-    :param timestamp: Will set what date & time the .timer file will execute the .service file.
+    :param daemon_name: For creating unique file name
     """
+    db.load_reminder()  # Load the files so we can find correct data with the id number
+
     receiver_email = '"' + receiver_email + '"'  # Ads "" to the string so it gets represented as a string in the script
-    create_file_path = SAVE_PYTHON_PATH + "reminder_" + str(id_number) + ".py"  # Creates a unique file name
+    create_file_path = PATH_EMAIL_SCRIPTS + "/" + daemon_name + ".py"
+
     with open(PATH_PYTHON_TEMPLATE, "r") as template:
         template_list = template.readlines()
     #  Removes the '\n' from the end of each element and ads the item into a new list
@@ -47,14 +109,6 @@ def create_email_scripts(id_number, receiver_email) -> None:
     with open(create_file_path, "w") as email_script:
         for line in edited_list:
             print(line, file=email_script)
-
-
-def create_service(id_number):
-    pass
-
-
-def create_timer(id_number):
-    pass
 
 
 def yes_or_no() -> bool:

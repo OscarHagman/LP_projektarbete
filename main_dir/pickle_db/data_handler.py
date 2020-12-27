@@ -2,7 +2,7 @@ import pickle
 
 #  PATHS
 PATH_PROJECT = "/home/oscar/oscars_projektarbete"
-PATH_EMAIL_SCRIPTS = PATH_PROJECT + "/main_dir/scripts_for_email/"
+PATH_EMAIL_SCRIPTS = PATH_PROJECT + "/main_dir/scripts_for_email"
 PATH_TEMPLATES = PATH_EMAIL_SCRIPTS + "/TEMPLATES"
 PATH_PYTHON_TEMPLATE = PATH_TEMPLATES + "/python_template.cfg"
 PATH_SERVICE_TEMPLATE = PATH_TEMPLATES + "/service_template.cfg"
@@ -32,6 +32,14 @@ try:
         REMINDERS = pickle.load(reminder_pickled)
 except FileNotFoundError:
     pass
+
+
+def load_reminder():
+    try:
+        with open(PICKLE_PATH, "rb") as reminder_pickled:
+            REMINDERS = pickle.load(reminder_pickled)
+    except FileNotFoundError:
+        pass
 
 
 def dump_reminders():
