@@ -1,2 +1,27 @@
-pwd >> path.txt
-find . -type f -path '*oscars_projektarbete/*' -name 'main_dir.py' >> path.txt
+touch run.sh
+file_name=$"run.sh"
+echo Enter the desired command name for the shell script
+read command_name
+
+# Goes on top of command
+cmd_line1="#!/bin/bash\n"
+path=$(echo $(pwd))
+cmd_line2="sudo python3 ${path}/program.py"
+
+command_ontop="${cmd_line1}${cmd_line2}"
+
+echo -e "${command_ontop}" | cat - $file_name > temp && mv temp $file_name
+chmod +x $file_name
+sudo mv $file_name /usr/local/bin/$command_name
+
+# Goes on top of db.py
+PATH_value="'${path}'"
+db_line1="my_list = []\n"
+db_line2="PATH = ${PATH_value}"
+
+db_ontop="${db_line1}${db_line2}"
+
+db_file_name=$"db.py"
+echo -e "${db_ontop}" | cat - $db_file_name > temp && mv temp $db_file_name
+
+echo "Installation complete. You can now enter ${command_name} anywhere on the computer to run the program"
