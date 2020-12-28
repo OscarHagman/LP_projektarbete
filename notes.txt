@@ -1,8 +1,0 @@
-.service filen kan troligen inte exekvera "sudo rm path/name.service" eftersom den blir blockerad
-för att ha ihäl sig själv medans scriptet den har kört är vid liv. circular probelm osv...
-
-Idé för lösning är att ha ett "remove_files.py" script som reminder_xxxx.py filen exekverar.
-För när den exekveras så har .service filen gjort klart sitt jobb och lägger sig dorment.
-Då är kan mina script säkert komma åt den.
-
-Eventuellt så kan remove_files behöva time.sleep(10)
