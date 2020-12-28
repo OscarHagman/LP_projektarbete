@@ -16,12 +16,12 @@ sudo mv $file_name /usr/local/bin/$command_name
 
 # Goes on top of db.py
 PATH_value="'${path}'"
-db_line1="my_list = []\n\n#  PATHS\n"
-db_line2="PATH_PROJECT = ${PATH_value}"
+db_line1="import sys\nimport pickle\nimport os\nsys.path.append('main_dir/pickle_db')\n"
+db_line2="\n#  PATHS\nPATH_PROJECT = ${PATH_value}\n"
 
 db_ontop="${db_line1}${db_line2}"
 
-db_file_name=$"${path}/main_dir/pickle_db/test_data_handler.py"
+db_file_name=$"${path}/main_dir/pickle_db/data_handler.py"
 echo -e "${db_ontop}" | cat - $db_file_name > temp && mv temp $db_file_name
 
 echo "Installation complete. You can now enter ${command_name} anywhere on the computer to run the program"

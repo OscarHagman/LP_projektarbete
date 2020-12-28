@@ -7,7 +7,7 @@ LIST = db.LIST  # This is the key for the dict
 ID = db.ID      # This is the key for the dict
 
 PATH_PYTHON_TEMPLATE = db.PATH_PYTHON_TEMPLATE
-PATH_EMAIL_SCRIPTS = db.PATH_EMAIL_SCRIPTS  # Path for where the python email scripts are saved
+PATH_PROJECT = db.PATH_PROJECT  # Path for where the python email scripts are saved
 
 PATH_SERVICE_TEMPLATE = db.PATH_SERVICE_TEMPLATE
 PATH_TIMER_TEMPLATE = db.PATH_TIMER_TEMPLATE
@@ -18,7 +18,7 @@ def execute_timer(daemon_name):
     d_timer = daemon_name + ".timer"
     d_python = "/" + daemon_name + ".py"
 
-    os.system("sudo chmod +x " + PATH_EMAIL_SCRIPTS + d_python)
+    os.system("sudo chmod +x " + PATH_PROJECT + d_python)
     os.system("sudo systemctl daemon-reload")
     os.system("sudo systemctl enable " + d_timer)
     os.system("sudo systemctl start " + d_timer)
@@ -85,7 +85,7 @@ def create_email_script(id_number, receiver_email, daemon_name, handler) -> None
     handler.load_reminder()  # Load the files so we can find correct data with the id number
 
     receiver_email = '"' + receiver_email + '"'  # Ads "" to the string so it gets represented as a string in the script
-    create_file_path = PATH_EMAIL_SCRIPTS + "/" + daemon_name + ".py"
+    create_file_path = PATH_PROJECT + "/" + daemon_name + ".py"
 
     with open(PATH_PYTHON_TEMPLATE, "r") as template:
         template_list = template.readlines()

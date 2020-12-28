@@ -1,9 +1,0 @@
-[Unit]
-Description=Send reminder email
-
-[Timer]
-OnCalendar=2020-04-04 22:22:00
-Persistent=true
-
-[Install]
-WantedBy=timers.target

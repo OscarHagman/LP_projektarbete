@@ -7,7 +7,7 @@ LIST = db.LIST    # This is the key for the reminders list in the dict
 ID = db.ID        # This is the key for the id counter in the dict
 EMAIL = db.EMAIL  # This is the key for the receiver email in the dict
 
-PATH_EMAIL_SCRIPTS = db.PATH_EMAIL_SCRIPTS
+PATH_PROJECT = db.PATH_PROJECT
 
 handler = db.ReminderHandler()
 def open_reminder(reminder_index: int) -> None:
@@ -57,7 +57,7 @@ while True:
         db.dump_reminders(handler)
 
         daemon_name = "reminder_" + str(handler.REMINDERS[ID])
-        create_file_path = PATH_EMAIL_SCRIPTS + "/" + daemon_name + ".py"
+        create_file_path = PATH_PROJECT + "/" + daemon_name + ".py"
 
         f.create_email_script(handler.REMINDERS[ID], handler.REMINDERS[EMAIL], daemon_name, handler)
         f.create_service(create_file_path, daemon_name)
