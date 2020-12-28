@@ -3,8 +3,6 @@ import pickle
 import os
 sys.path.append("main_dir/pickle_db")
 
-
-PATH_PROJECT = "/home/oscar/oscars_projektarbete"  # pwd value
 PATH_TEMPLATES = PATH_PROJECT + "/main_dir/scripts_for_email/TEMPLATES"
 PATH_PYTHON_TEMPLATE = PATH_TEMPLATES + "/python_template.cfg"
 PATH_SERVICE_TEMPLATE = PATH_TEMPLATES + "/service_template.cfg"
