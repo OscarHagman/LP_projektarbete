@@ -6,7 +6,7 @@ read command_name
 # Goes on top of command
 cmd_line1="#!/bin/bash\n"
 path=$(echo $(pwd))
-cmd_line2="sudo python3 ${path}/program.py"
+cmd_line2="sudo python3 ${path}/reminder.py"
 
 command_ontop="${cmd_line1}${cmd_line2}"
 
