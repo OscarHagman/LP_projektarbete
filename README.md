@@ -4,7 +4,7 @@ This application was made for a school project.
 It's purpose is to let the user have custom reminders sent to their email at a specific date and time.
 
 For this application to work you need:
-Python 3.8
+Python 3.8.
 Git.
 Low expectations.
 
