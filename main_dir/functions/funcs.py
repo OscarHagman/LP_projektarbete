@@ -11,7 +11,7 @@ PATH_EMAIL_SCRIPTS = db.PATH_EMAIL_SCRIPTS  # Path for where the python email sc
 
 PATH_SERVICE_TEMPLATE = db.PATH_SERVICE_TEMPLATE
 PATH_TIMER_TEMPLATE = db.PATH_TIMER_TEMPLATE
-SYSTEMD_PATH = "/home/oscar/oscars_projektarbete"
+SYSTEMD_PATH = "/etc/systemd/system"
 
 
 def execute_timer(daemon_name):
