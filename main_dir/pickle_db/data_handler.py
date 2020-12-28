@@ -4,13 +4,20 @@ import os
 sys.path.append("main_dir/pickle_db")
 
 #  PATHS
-PATH_PROJECT = "/"
-PATH_EMAIL_SCRIPTS = PATH_PROJECT + "home/ianertson/workspace/LP_projektarbete/main_dir"
-PATH_TEMPLATES = PATH_PROJECT + "home/ianertson/workspace/LP_projektarbete/main_dir/scripts_for_email/TEMPLATES"
+PATH_PROJECT = "/home/oscar/oscars_projektarbete"  # pwd value
+PATH_EMAIL_SCRIPTS = PATH_PROJECT + "/main_dir"
+PATH_TEMPLATES = PATH_EMAIL_SCRIPTS + "/scripts_for_email/TEMPLATES"
 PATH_PYTHON_TEMPLATE = PATH_TEMPLATES + "/python_template.cfg"
 PATH_SERVICE_TEMPLATE = PATH_TEMPLATES + "/service_template.cfg"
 PATH_TIMER_TEMPLATE = PATH_TEMPLATES + "/timer_template.cfg"
-PICKLE_PATH = "main_dir/pickle_db/reminders.pickle"
+PICKLE_PATH = PATH_PROJECT + "/main_dir/pickle_db/reminders.pickle"
+
+print(PATH_EMAIL_SCRIPTS)
+print(PATH_TEMPLATES)
+print(PATH_PYTHON_TEMPLATE)
+print(PATH_SERVICE_TEMPLATE)
+print(PATH_TIMER_TEMPLATE)
+print(PICKLE_PATH)
 
 #  KEYS
 LIST = "reminder_key_list"

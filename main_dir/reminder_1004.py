@@ -3,17 +3,15 @@ import os
 import smtplib
 from pickle_db import data_handler as db
 
-# NEW
 handler = db.ReminderHandler()
 handler.load_reminder()
-# NEW
 
 #  CONSTANTS
 LIST = db.LIST  # This is the key for the dict
 ID = db.ID  # This is the key for the dict
 
 # NEEDS TO BE CUSTOMIZABLE
-REMINDER_ID = 1001
+REMINDER_ID = 1004
 receiver_email = "oscar.leslie.hagman@gmail.com"
 
 sender_email = "oscars.reminder.bot@gmail.com"
@@ -42,25 +40,4 @@ except Exception as e:
     print("ERROR:", e)
 
 # !!!EVERYTHING BELOW THIS LINE IS NEW!!!
-daemon_name = "reminder_" + str(REMINDER_ID)
-d_service = daemon_name + ".service"
-d_timer = daemon_name + ".timer"
 
-systemd_path = "/etc/systemd/system/"
-lib_systemd_path = "/etc/systemd/system/"
-
-os.system("sudo systemctl stop " + d_timer)
-os.system("sudo systemctl disable " + d_timer)
-os.system("sudo rm " + systemd_path + d_timer)
-os.system("sudo rm " + lib_systemd_path + d_timer)
-
-os.system("sudo systemctl stop " + d_service)
-os.system("sudo systemctl disable " + d_service)
-os.system("sudo rm " + systemd_path + d_service)
-os.system("sudo rm " + lib_systemd_path + d_service)
-
-# SELF DESTRUCT
-PATH_EMAIL_SCRIPTS = "/home/oscar/oscars_projektarbete/main_dir/"
-d_python = daemon_name + ".py"
-print("sudo rm " + PATH_EMAIL_SCRIPTS + "/" + d_python)
-os.system("sudo rm " + PATH_EMAIL_SCRIPTS + "/" + d_python)
