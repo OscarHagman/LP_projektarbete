@@ -16,7 +16,7 @@ Low expectations.
 The install.sh script creates a command after what you, the user, have entered for it to be. So to run the program you simply just type in that command anywhere on the computer and it will be executed. (Provided that you executed the install.sh script correctly, have a compatible OS, python 3.8 and don't tamper with the programs directory or any files in it)
 ##### [1] Create reminder  -  Lets you create a reminder with a title, text and a reminder date. Reminder date is when the email will be sent.
 ##### [2] View reminders  -  Prints out all your reminders and let you open them to either read or delete them. (However, the delete function doesn't actually work, trying to do so will crash the program)
-##### [3] Set receiver email  -  Set what email you want to get your email sent to. You only have to do this once, unless you want to change what email you want your reminders will be sent to.
+##### [3] Set receiver email  -  Set what email address you want to get your reminders sent to. You only have to do this once, unless you want to change email address.
 ##### [4] Exit  -  Pretty self explanatory
 
 The scripts that sends the email have code in them that are designed to self destruct after they have been executed. However, there is a bug where the self destruct code doesn't succeed in removing the reminder_xxxx.service file. So you will have to do that manually, unless you're ok with having a bunch of useless junk in your /etc/systemd/system directory.
