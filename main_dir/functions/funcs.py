@@ -11,7 +11,7 @@ PATH_EMAIL_SCRIPTS = db.PATH_EMAIL_SCRIPTS  # Path for where the python email sc
 
 PATH_SERVICE_TEMPLATE = db.PATH_SERVICE_TEMPLATE
 PATH_TIMER_TEMPLATE = db.PATH_TIMER_TEMPLATE
-SYSTEMD_PATH = "/etc/systemd/system"
+SYSTEMD_PATH = "/etc/systemd/system/"
 
 
 def execute_timer(daemon_name):
@@ -68,7 +68,7 @@ def create_timer(time_stamp, daemon_name):
             print(line, file=email_service)
 
 
-def create_email_script(id_number, receiver_email, daemon_name) -> None:
+def create_email_script(id_number, receiver_email, daemon_name, handler) -> None:
     """
     Writes a custom and unique .py, .service and .timer file based on templates.
     The .py file opens the .pickle file, searches for a matching id number and attaches the title and text to the
@@ -82,7 +82,7 @@ def create_email_script(id_number, receiver_email, daemon_name) -> None:
     :param receiver_email: Email address the .py file will send that data to.
     :param daemon_name: For creating unique file name
     """
-    db.load_reminder()  # Load the files so we can find correct data with the id number
+    handler.load_reminder()  # Load the files so we can find correct data with the id number
 
     receiver_email = '"' + receiver_email + '"'  # Ads "" to the string so it gets represented as a string in the script
     create_file_path = PATH_EMAIL_SCRIPTS + "/" + daemon_name + ".py"

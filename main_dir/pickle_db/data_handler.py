@@ -1,15 +1,16 @@
 import sys
 import pickle
-sys.path.append("/home/oscar/oscars_projektarbete/main_dir/pickle_db")
+import os
+sys.path.append("main_dir/pickle_db")
 
 #  PATHS
-PATH_PROJECT = "/home/oscar/oscars_projektarbete"
-PATH_EMAIL_SCRIPTS = PATH_PROJECT + "/main_dir"
-PATH_TEMPLATES = PATH_PROJECT + "/main_dir/scripts_for_email/TEMPLATES"
+PATH_PROJECT = "/"
+PATH_EMAIL_SCRIPTS = PATH_PROJECT + "home/ianertson/workspace/LP_projektarbete/main_dir"
+PATH_TEMPLATES = PATH_PROJECT + "home/ianertson/workspace/LP_projektarbete/main_dir/scripts_for_email/TEMPLATES"
 PATH_PYTHON_TEMPLATE = PATH_TEMPLATES + "/python_template.cfg"
 PATH_SERVICE_TEMPLATE = PATH_TEMPLATES + "/service_template.cfg"
 PATH_TIMER_TEMPLATE = PATH_TEMPLATES + "/timer_template.cfg"
-PICKLE_PATH = "/home/oscar/oscars_projektarbete/main_dir/pickle_db/reminders.pickle"
+PICKLE_PATH = "main_dir/pickle_db/reminders.pickle"
 
 #  KEYS
 LIST = "reminder_key_list"
@@ -42,8 +43,12 @@ class ReminderHandler:
 
 
     def load_reminder(self):
-        with open(PICKLE_PATH, "rb") as reminder_pickled:
-            self.REMINDERS = pickle.load(reminder_pickled)
+        if not os.path.isfile(PICKLE_PATH):
+            return
+            
+        if os.path.getsize(PICKLE_PATH) > 0:
+            with open(PICKLE_PATH, "rb") as reminder_pickled:
+                self.REMINDERS = pickle.load(reminder_pickled)
 
 
 ID_COUNTER = 1001

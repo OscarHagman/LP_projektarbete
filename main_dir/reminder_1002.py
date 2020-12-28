@@ -9,7 +9,7 @@ ID = db.ID  # This is the key for the dict
 
 # NEEDS TO BE CUSTOMIZABLE
 REMINDER_ID = 1002
-receiver_email = "oscar.leslie.hagman@gmail.com"
+receiver_email = ""
 
 sender_email = "oscars.reminder.bot@gmail.com"
 password = "devops2020"

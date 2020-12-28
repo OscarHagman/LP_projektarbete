@@ -54,17 +54,17 @@ while True:
 
         reminder_object = db.Reminder(reminder_title, reminder_text, reminder_timestamp, handler.REMINDERS[ID])
         handler.add_reminder(reminder_object)
-        db.dump_reminders()
+        db.dump_reminders(handler)
 
         daemon_name = "reminder_" + str(handler.REMINDERS[ID])
         create_file_path = PATH_EMAIL_SCRIPTS + "/" + daemon_name + ".py"
 
-        f.create_email_script(handler.REMINDERS[ID], handler.REMINDERS[EMAIL], daemon_name)
+        f.create_email_script(handler.REMINDERS[ID], handler.REMINDERS[EMAIL], daemon_name, handler)
         f.create_service(create_file_path, daemon_name)
         f.create_timer(reminder_timestamp, daemon_name)
         f.execute_timer(daemon_name)
         handler.REMINDERS[ID] += 1
-        db.dump_reminders()
+        db.dump_reminders(handler)
 
     elif main_menu_input == "2":
         if handler.REMINDERS[LIST]:

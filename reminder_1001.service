@@ -1,0 +1,9 @@
+[Service]
+Type=oneshot
+ExecStart=.//main_dir/reminder_1001.py
+
+[Unit]
+Description=Send reminder email
+
+[Install]
+WantedBy=multi-user.target
